@@ -92,3 +92,9 @@ class DBStorage:
         else:
             n_obj = len(self.all().keys())
         return n_obj
+
+    def get_user(self, _id):
+        """
+        query a user by id
+        """
+        return self.__session.query(User).filter_by(id=_id).first()

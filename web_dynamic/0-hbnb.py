@@ -9,9 +9,10 @@ from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 from models.user import User
-from flask import Flask
-from flask import render_template
+from flask import Flask, abort
+from flask import render_template, jsonify
 from flask import Markup
+import uuid
 
 
 def get_name(name):
@@ -53,18 +54,18 @@ def hbnb_filters():
         storage.close()
         amenities = storage.all(Amenity)
         amens = []
-        try:
-            for ameni in amenities.items():
-                #print(ameni[1].name)
-                amens.append(ameni[1].name)
-            for st in states:
-                print(st[1])
-                for cit in st[2]:
-                    print('\t', cit['name'])
-            for am in amens:
-                print(am)
-        except Exception as e:
-            print(e)
+        # try:
+        #     for ameni in amenities.items():
+        #         #print(ameni[1].name)
+        #         amens.append(ameni[1].name)
+        #     for st in states:
+        #         print(st[1])
+        #         for cit in st[2]:
+        #             print('\t', cit['name'])
+        #     for am in amens:
+        #         print(am)
+        # except Exception as e:
+        #     print(e)
         #print('\n\n\t\tStates:\n', states, '\n\n\t\tAmenities', amenities)
         places = storage.all(Place)
         plas = []
@@ -73,8 +74,8 @@ def hbnb_filters():
             plas.append((place[1], user.first_name + ' ' + user.last_name))
         
         plas = sorted(plas, key=lambda x: x[0].name, reverse=False)
-        for pla in plas:
-        	print(pla[0].name, pla[1])
+        # for pla in plas:
+        # 	print(pla[0].name, pla[1])
         #print(plas[0].user_id)
 
         # users = storage.all(User)
@@ -84,17 +85,20 @@ def hbnb_filters():
         #     break
 
         #print(plas)
-        template = render_template("100-hbnb.html", **{'states': states, 'amenities': amens, 'places': plas})
-        print("Template is a: ", type(template))
-        with open('web_flask/test_2.html', 'w') as out:
-            out.write(template)
+        template = render_template("0-hbnb.html", **{'states': states,
+                                                       'amenities': amens,
+                                                       'places': plas, 'cache_id': uuid.uuid4()})
+        #print("Template is a: ", type(template))
+        #with open('web_flask/test_2.html', 'w') as out:
+        #    out.write(template)
         template = template.replace('&lt;BR /&gt;', '<br>')
-        with open('web_flask/test.html', 'w') as out:
-            out.write(template)
+        #with open('web_flask/test.html', 'w') as out:
+        #    out.write(template)
         #print("\nTemplate:\n\t", dir(template), '\n')
+        return template
     except Exception as e:
         print(e)
-    return template
+        return jsonify(e)
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
