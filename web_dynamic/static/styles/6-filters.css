@@ -43,10 +43,10 @@ section.filters > button:hover {
     font-weight: 400;
     font-size: 14px;
     margin: 0 0 5px 0;
-	text-overflow: ellipsis;
-	width: 90%;
-	overflow: hidden;
-	white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .popover {

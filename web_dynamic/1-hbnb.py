@@ -58,12 +58,12 @@ def hbnb_filters():
             for ameni in amenities.items():
                 #print(ameni[1].name)
                 amens.append({"name": ameni[1].name, "id": ameni[1].id})
-            for st in states:
-                print(st[1])
-                for cit in st[2]:
-                    print('\t', cit['name'])
-            for am in amens:
-                print(am)
+            # for st in states:
+                # print(st[1])
+                # for cit in st[2]:
+                #     print('\t', cit['name'])
+            # for am in amens:
+            #     print(am)
         except Exception as e:
             print(e)
         places = storage.all(Place)
