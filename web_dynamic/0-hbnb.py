@@ -9,6 +9,7 @@ from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 from models.user import User
+from flasgger import Swagger
 from flask import Flask, abort
 from flask import render_template, jsonify
 from flask import Markup
@@ -26,6 +27,7 @@ def get_cities(city):
 
 
 app = Flask(__name__)
+swagger = Swagger(app)
 
 
 @app.teardown_appcontext
