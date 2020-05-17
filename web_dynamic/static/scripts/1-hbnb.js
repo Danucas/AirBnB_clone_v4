@@ -1,15 +1,23 @@
-$(window).on("load", function() {
-  let ch_am = []
-  $("input").change(function() {
-	if (this.checked) {
-		console.log("Checked");
-		ch_am.push($(this).attr("data-id"));
-	} else {
-		let index = ch_am.indexOf($(this).attr("data-id"))
-		if (index >= 0) {
-			ch_am.splice(index);
-		}
-		console.log("Unchecked");
-	}
+$(window).on('load', function () {
+  const chAm = {};
+  function updateH4 () {
+    let amenities = '';
+    for (const id in chAm) {
+      amenities += chAm[id];
+      amenities += ', ';
+    }
+    $('.amenities > h4').text(amenities);
+  }
+  $('.amenities > input').change(function () {
+    if (this.checked) {
+      console.log('Checked');
+      chAm[$(this).attr('data-id')] = $(this).attr('data-name');
+      // console.log(chAm);
+    } else {
+      if ($(this).attr('data-id') in chAm) {
+        delete chAm[$(this).attr('data-id')];
+      }
+    }
+    updateH4();
   });
 });
