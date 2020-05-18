@@ -143,33 +143,48 @@ def filter_by_amenities(places, amenities):
     return filtered_places
 
 
-@app_views.route("/places_search", methods=['POST'])
+@app_views.route("/places_search", methods=['POST'], strict_slashes=False)
 def retrieve_search():
     """
     Return a list of places linked to the request data
     all cities in state and containing all amenities
     """
-    js = request.get_json()
-    if js is None or type(js) != dict:
-        return jsonify(error="Not a JSON"), 400
-    states = js["states"] if "states" in js else []
-    cities = js["cities"] if "cities" in js else []
-    amenities = js["amenities"] if "amenities" in js else []
-    conds = [
-                True if len(states) == 0 else False,
-                True if len(cities) == 0 else False,
-                True if len(amenities) == 0 else False
-    ]
-    print(conds)
+    print("requesting places")
+    try:
+        # print(dir(request))
+        print(request.data)
+        try:
+            js = request.get_json()
+        except:
+            js = {}
+        if js is None or type(js) != dict:
+            print('Data is not a Json')
+            return jsonify(error="Not a JSON"), 400
+        states = js["states"] if "states" in js else []
+        cities = js["cities"] if "cities" in js else []
+        amenities = js["amenities"] if "amenities" in js else []
+        conds = [
+            True if len(states) == 0 else False,
+            True if len(cities) == 0 else False,
+            True if len(amenities) == 0 else False
+        ]
+        print(conds)
+    except Exception as e:
+        print(e)
     if all(conds):
         print("return all places")
         places = storage.all(Place)
         all_places = []
-        for place in places.values():
-            all_places.append(place)
-        return Response(json.dumps(all_places, indent=2),
-                        200,
-                        mimetype="application/json")
+        try:
+            for place in places.values():
+                pl = place.to_dict()
+                user = storage.get_user(pl['user_id'])
+                owner = user.first_name + ' ' + user.last_name
+                pl['owner'] = owner
+                all_places.append(pl)
+            return jsonify(all_places), 200
+        except Exception as e:
+            print(e)
     s_places = []
     if len(states) > 0:
         for st_id in states:
@@ -203,7 +218,10 @@ def retrieve_search():
         f_places.extend(filter_by_amenities(all_places.values(), amenities))
     resp = []
     for pl in f_places:
-        dic = pl.to_dict()
+        dic = pl.to_dict()            
+        user = storage.get_user(dic['user_id'])
+        owner = user.first_name + ' ' + user.last_name
+        dic['owner'] = owner
         if "amenities" in dic:
             del dic["amenities"]
         resp.append(dic)
