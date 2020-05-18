@@ -1,8 +1,20 @@
 $(window).on('load', function () {
   const url = 'http://0.0.0.0:5001/api/v1/status/';
+  try {
   $.ajax({url: url,
-	  success: function (data) {console.log(data)}
+	  success: function (data) {
+		  if ('status' in data) {
+			console.log(data['status']);
+			$('#api_status').addClass('available');
+		  } else {
+			console.log(data['error']);
+			$('#api_status').removeClass('available');
+		  }
+		}
   });
+	} catch (err) {
+		console.log(err);
+	}
   
   const chAm = {};
   $('input').change(function () {

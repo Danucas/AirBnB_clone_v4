@@ -28,7 +28,6 @@ def get_cities(city):
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 swagger = Swagger(app)
 
 
