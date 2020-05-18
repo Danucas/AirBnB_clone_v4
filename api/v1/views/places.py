@@ -149,19 +149,28 @@ def retrieve_search():
     Return a list of places linked to the request data
     all cities in state and containing all amenities
     """
-    js = request.get_json()
-    if js is None or type(js) != dict:
-        print('Data is not a Json')
-        return jsonify(error="Not a JSON"), 400
-    states = js["states"] if "states" in js else []
-    cities = js["cities"] if "cities" in js else []
-    amenities = js["amenities"] if "amenities" in js else []
-    conds = [
-                True if len(states) == 0 else False,
-                True if len(cities) == 0 else False,
-                True if len(amenities) == 0 else False
-    ]
-    print(conds)
+    print("requesting places")
+    try:
+        # print(dir(request))
+        print(request.data)
+        try:
+            js = request.get_json()
+        except:
+            js = {}
+        if js is None or type(js) != dict:
+            print('Data is not a Json')
+            return jsonify(error="Not a JSON"), 400
+        states = js["states"] if "states" in js else []
+        cities = js["cities"] if "cities" in js else []
+        amenities = js["amenities"] if "amenities" in js else []
+        conds = [
+            True if len(states) == 0 else False,
+            True if len(cities) == 0 else False,
+            True if len(amenities) == 0 else False
+        ]
+        print(conds)
+    except Exception as e:
+        print(e)
     if all(conds):
         print("return all places")
         places = storage.all(Place)
@@ -169,7 +178,7 @@ def retrieve_search():
         try:
             for place in places.values():
                 pl = place.to_dict()
-                user = storage.get_user(pl[user_id])
+                user = storage.get_user(pl['user_id'])
                 owner = user.first_name + ' ' + user.last_name
                 pl['owner'] = owner
                 all_places.append(pl)
@@ -210,7 +219,7 @@ def retrieve_search():
     resp = []
     for pl in f_places:
         dic = pl.to_dict()            
-        user = storage.get_user(dic[user_id])
+        user = storage.get_user(dic['user_id'])
         owner = user.first_name + ' ' + user.last_name
         dic['owner'] = owner
         if "amenities" in dic:

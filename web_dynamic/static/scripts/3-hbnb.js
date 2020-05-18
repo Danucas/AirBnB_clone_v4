@@ -2,10 +2,10 @@ $(window).on('load', function () {
   const url = 'http://127.0.0.1:5001/api/v1/places_search/';
   $.ajax({
     type: 'POST',
-    headers: {'Content-Type', 'application/json'},
+    headers: {'Content-Type': 'application/json'},
     data: {},
     accepts: 'application/json',
-    crossDomain: True,
+    crossDomain: true,
     url: url,
     success: function (data) {
       console.log(data.length);
