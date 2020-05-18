@@ -23,3 +23,4 @@ sudo pip3 install flask
 sudo pip3 install requests
 sudo pip3 install flask_cors
 sudo pip3 install flasgger
+sudo pip3 install pathlib2
