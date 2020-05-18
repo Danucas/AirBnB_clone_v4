@@ -15,11 +15,8 @@ from models.state import State
 from models.user import User
 
 
-<<<<<<< HEAD
+
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-=======
-@app_views.route('/status', methods=['GET'], strict_slashes=false)
->>>>>>> 4336d648b8a8a7b6bb113b373a5098e95b26aa59
 def status():
     """
     This route return a success status in JSON format
