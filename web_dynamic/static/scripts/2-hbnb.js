@@ -1,7 +1,10 @@
 $(window).on('load', function () {
-  const url = 'http://0.0.0.0:5001/api/v1/status/';
+  const url = 'http://9581a6b6dc69@19.hbtn-cod.io:37269/api/v1/status';
   $.ajax({url: url,
-	  success: function (data) {console.log(data)}
+	  success: function (data) {
+	      console.log(data[status]);
+	      
+    }
   });
   
   const chAm = {};
