@@ -8,17 +8,25 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flasgger import Swagger
 import os
 
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+swagger = Swagger(app)
 
 
 @app.errorhandler(404)
 def page_not_found(e):
     """
     Defines not found json response
+    ---
+    responses:
+      404:
+         description: Not found
+         examples:
+           error: 'Not found'
     """
     print("Handling Error")
     return jsonify(error="Not found"), 404

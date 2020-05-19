@@ -13,6 +13,7 @@ from flasgger import Swagger
 from flask import Flask, abort
 from flask import render_template, jsonify
 from flask import Markup
+from flask_cors import CORS
 import uuid
 
 
@@ -27,6 +28,7 @@ def get_cities(city):
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 swagger = Swagger(app)
 
 
@@ -38,11 +40,10 @@ def close_storage(uknown):
     storage.close()
 
 
-@app.route('/0-hbnb', strict_slashes=False)
+@app.route('/100-hbnb', strict_slashes=False)
 def hbnb_filters():
     """
     List all Cities in db
-
     """
     try:
         states = storage.all(State)
@@ -57,45 +58,29 @@ def hbnb_filters():
         storage.close()
         amenities = storage.all(Amenity)
         amens = []
-        # try:
-        #     for ameni in amenities.items():
-        #         #print(ameni[1].name)
-        #         amens.append(ameni[1].name)
-        #     for st in states:
-        #         print(st[1])
-        #         for cit in st[2]:
-        #             print('\t', cit['name'])
-        #     for am in amens:
-        #         print(am)
-        # except Exception as e:
-        #     print(e)
-        # print('\n\n\t\tStates:\n', states, '\n\n\t\tAmenities', amenities)
+        try:
+            for ameni in amenities.items():
+                # print(ameni[1].name)
+                amens.append({"name": ameni[1].name, "id": ameni[1].id})
+            # for st in states:
+                # print(st[1])
+                # for cit in st[2]:
+                #     print('\t', cit['name'])
+            # for am in amens:
+            #     print(am)
+        except Exception as e:
+            print(e)
         places = storage.all(Place)
         plas = []
         for place in places.items():
             user = storage.get_user(place[1].user_id)
             plas.append((place[1], user.first_name + ' ' + user.last_name))
         plas = sorted(plas, key=lambda x: x[0].name, reverse=False)
-        # for pla in plas:
-        # 	print(pla[0].name, pla[1])
-        # print(plas[0].user_id)
-
-        # users = storage.all(User)
-        # for user in users.items():
-        #     print(dir(user[1]))
-        #     break
-        # print(plas)
-        template = render_template("0-hbnb.html", **{'states': states,
+        template = render_template("100-hbnb.html", **{'states': states,
                                                      'amenities': amens,
                                                      'places': plas,
                                                      'cache_id': uuid.uuid4()})
-        # print("Template is a: ", type(template))
-        # with open('web_flask/test_2.html', 'w') as out:
-        #    out.write(template)
         template = template.replace('&lt;BR /&gt;', '<br>')
-        # with open('web_flask/test.html', 'w') as out:
-        #    out.write(template)
-        # print("\nTemplate:\n\t", dir(template), '\n')
         return template
     except Exception as e:
         print(e)
@@ -111,4 +96,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port="5001")
+    app.run(host="0.0.0.0", port="5000")

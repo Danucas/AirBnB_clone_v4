@@ -22,6 +22,15 @@
 	text-align: center;
 	margin-top: 0;
 }
+.results {
+    width: 100%;
+    padding-left: 40px;
+    font-size: 18px;
+    font-weight: normal;
+    color: grey;
+    text-align: left;
+    font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 .title_box {
     display: flex;
     justify-content: space-between;
