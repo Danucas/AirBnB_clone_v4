@@ -131,6 +131,11 @@ def print_place(place, typo):
 
 
 def filter_by_amenities(places, amenities):
+    """
+    Filter places by amenities
+    """
+    if len(amenities) == 0:
+      return places
     filtered_places = []
     for place in places:
         pl_amens = [am.id for am in place.amenities]
@@ -147,8 +152,75 @@ def filter_by_amenities(places, amenities):
 def retrieve_search():
     """
     Return a list of places linked to the request data
-    all cities in state and containing all amenities
-    
+    all places by cities in states and containing all amenities
+    ---
+    post:
+      summary: 'Creates a new user.'
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Filters to apply.
+          schema:
+            type: object
+            properties:
+              amenities:
+                type: array
+                items:
+                  type: string
+              states:
+                type: array
+                items:
+                  type: string
+              cities:
+                type: array
+                items:
+                  type: string
+    responses:
+      200:
+        description: Places filtered
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              __class__:
+                type: string
+                example: Place
+              description:
+                type: string
+                example: Comfortable bogaloo at the middel of the ocean
+              name:
+                type: string
+                example: 42GVT
+              max_guest:
+                type: integer
+                example: 2
+              city_id:
+                type: string
+                example: 9231h2u3h12u9319nc
+              number_bathrooms:
+                type: integer
+                example: 1
+              number_rooms:
+                type: integer
+                example: 1
+              owner:
+                type: string
+                example: Grandma Lily
+              price_by_night:
+                type: integer
+                example: 90
+              user_id:
+                type: string
+                example: 9283huf92b3fb32932
+              updated_at:
+                type: string
+                example: 2017-03-25T02:17:06.000000
+              created_at:
+                type: string
+                example: 2017-03-25T02:17:06.000000
     """
     print("requesting places")
     try:
@@ -208,12 +280,12 @@ def retrieve_search():
     f_places = []
     f_places.extend(s_places)
     f_places.extend(c_places)
-    print("\033[31mStates Places\033[0m")
-    for pl in s_places:
-        print_place(pl, "Obj")
-    print("\033[31mCities Places\033[0m")
-    for pl in c_places:
-        print_place(pl, "Obj")
+    # print("\033[31mStates Places\033[0m")
+    # for pl in s_places:
+    #     print_place(pl, "Obj")
+    # print("\033[31mCities Places\033[0m")
+    # for pl in c_places:
+    #     print_place(pl, "Obj")
     if len(amenities) > 0:
         f_places = filter_by_amenities(f_places, amenities)
         print("\033[31mFiltered by Amenities\033[0m")
@@ -221,6 +293,7 @@ def retrieve_search():
             print_place(pl, "Obj")
         all_places = storage.all(Place)
         f_places.extend(filter_by_amenities(all_places.values(), amenities))
+    print('places length', len(f_places))
     resp = []
     for pl in f_places:
         dic = pl.to_dict()            
@@ -230,6 +303,5 @@ def retrieve_search():
         if "amenities" in dic:
             del dic["amenities"]
         resp.append(dic)
-    return Response(json.dumps(resp, indent=2),
-                    200,
-                    mimetype="application/json")
+    # print(resp)
+    return jsonify(resp), 200

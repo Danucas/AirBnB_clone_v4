@@ -20,6 +20,18 @@ from models.user import User
 def status():
     """
     This route return a success status in JSON format
+    ---
+    responses:
+      200:
+        description: Return OK if API is running
+        content:
+           application/json
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: OK
     """
     return jsonify(status="OK"), 200
 
@@ -28,6 +40,34 @@ def status():
 def count():
     """
     This route return number of all models
+    ---
+    responses:
+      200:
+          description: Return the count of all models
+          content:
+             application/json
+          schema:
+           type: object
+           properties:
+               amenities:
+                   type: integer
+                   example: 32
+               cities:
+                   type: integer
+                   example: 34
+               places:
+                   type: integer
+                   example: 65
+               reviews:
+                   type: integer
+                   example: 84
+               states:
+                   type: integer
+                   example: 35
+               users:
+                   type: integer
+                   example: 91
+
     """
     return jsonify(amenities=storage.count(Amenity),
                    cities=storage.count(City),

@@ -16,6 +16,29 @@ import json
 def amenities():
     """
     This route retrieves the list of all amenity objects
+    ---
+    responses:
+      200:
+        description: return the list of all amenities
+        schema:
+          type: object
+          properties:
+            __class__:
+              type: string
+              example: 'Amenity'
+            created_at:
+              type: string
+              example: '2017-03-25T02:17:06.000000'
+            id:
+              type: string
+              example: 'acsd87asdfsacd6sdfadsfda8d'
+            name:
+              type: string
+              example: 'Smoke detector'
+            updated_at:
+              type: string
+              example: '2017-03-25T02:17:06.000000'
+
     """
     amenities = storage.all(Amenity)
     amenities_list = []
