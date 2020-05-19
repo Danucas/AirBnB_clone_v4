@@ -1,5 +1,5 @@
 $(window).on('load', function () {
-  const url = 'http://127.0.0.1:5001/api/v1/places_search/';
+  const url = 'http://0.0.0.0:5001/api/v1/places_search/';
   $.ajax({
     type: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -35,6 +35,23 @@ $(window).on('load', function () {
     }
 
   });
+  const apiStatus = function () {
+    const url = 'http://0.0.0.0:5001/api/v1/status/';
+    $.ajax({
+      type: 'GET',
+      url: url,
+      success: function (data) {
+        if ('status' in data) {
+          console.log(data.status);
+          $('#api_status').addClass('available');
+        } else {
+          console.log(data.error);
+          $('#api_status').removeClass('available');
+        }
+      }
+    });
+  };
+  apiStatus();
   const chAm = {};
   $('input').change(function () {
     if (this.checked) {

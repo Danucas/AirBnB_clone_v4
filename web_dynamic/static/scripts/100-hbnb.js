@@ -27,9 +27,25 @@ $(window).on('load', function () {
       }
     }
   };
-
+  const  apiStatus = function () {
+    const url = 'http://0.0.0.0:5001/api/v1/status/';
+    $.ajax({
+      type: 'GET',
+      url: url,
+      success: function (data) {
+        if ('status' in data) {
+          console.log(data.status);
+          $('#api_status').addClass('available');
+        } else {
+          console.log(data.error);
+          $('#api_status').removeClass('available');
+        }
+      }
+    });
+  };
+  apiStatus();
   const requestPlaces = function (filters) {
-    const url = 'http://127.0.0.1:5001/api/v1/places_search/';
+    const url = 'http://0.0.0.0:5001/api/v1/places_search/';
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
@@ -67,7 +83,7 @@ $(window).on('load', function () {
     // console.log(amenities, chAm);
     $('.amenities > h4').text(amenities.slice(0, -2));
   });
-  $('.state > input').change(function () {
+  $('.state-div > input').change(function () {
     if (this.checked) {
       states[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
@@ -89,10 +105,12 @@ $(window).on('load', function () {
   });
   $('.city > input').change(function () {
     if (this.checked) {
-      cities[$(this).attr('data-id')] = $(this).attr('data-name');
+      const name = $(this).attr('data-name')
+      cities[$(this).attr('data-id')] = name;
+      console.log(name);
     } else {
       if ($(this).attr('data-id') in states) {
-        delete states[$(this).attr('data-id')];
+        delete cities[$(this).attr('data-id')];
       }
     }
     let sts = '';
