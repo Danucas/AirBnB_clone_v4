@@ -3,7 +3,7 @@
 1 verbose cli   '/usr/bin/npm',
 1 verbose cli   'install',
 1 verbose cli   'semistandard',
-1 verbose cli   '-g' ]
+1 verbose cli   '--global' ]
 2 info using npm@1.3.10
 3 info using node@v0.10.25
 4 verbose cache add [ 'semistandard', null ]
@@ -32,13 +32,13 @@
 16 verbose url raw semistandard
 17 verbose url resolving [ 'https://registry.npmjs.org/', './semistandard' ]
 18 verbose url resolved https://registry.npmjs.org/semistandard
-19 info trying registry request attempt 1 at 17:55:56
+19 info trying registry request attempt 1 at 00:18:19
 20 http GET https://registry.npmjs.org/semistandard
 21 info retry will retry, error on last attempt: Error: CERT_UNTRUSTED
-22 info trying registry request attempt 2 at 17:56:06
+22 info trying registry request attempt 2 at 00:18:29
 23 http GET https://registry.npmjs.org/semistandard
 24 info retry will retry, error on last attempt: Error: CERT_UNTRUSTED
-25 info trying registry request attempt 3 at 17:57:06
+25 info trying registry request attempt 3 at 00:19:30
 26 http GET https://registry.npmjs.org/semistandard
 27 silly lockFile 7b67b5d8-semistandard semistandard@
 28 silly lockFile 7b67b5d8-semistandard semistandard@
@@ -58,7 +58,7 @@
 30 error or email it to:
 30 error     <npm-@googlegroups.com>
 31 error System Linux 3.13.0-170-generic
-32 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "semistandard" "-g"
+32 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "semistandard" "--global"
 33 error cwd /home/vagrant/AirBnB_clone_v4
 34 error node -v v0.10.25
 35 error npm -v 1.3.10

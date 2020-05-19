@@ -148,14 +148,19 @@ def retrieve_search():
     """
     Return a list of places linked to the request data
     all cities in state and containing all amenities
+    
     """
     print("requesting places")
     try:
         # print(dir(request))
-        print(request.data)
+        # print(request.headers)
+        # args = request.args 
+        # print(args)
+        # print(request.mimetype)
         try:
             js = request.get_json()
-        except:
+        except Exception as e:
+            print(e)
             js = {}
         if js is None or type(js) != dict:
             print('Data is not a Json')
