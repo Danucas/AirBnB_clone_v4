@@ -93,3 +93,29 @@
 .user {
   margin-bottom: 1.5%;
 }
+
+.show {
+    padding-top: 12px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.reviews {
+    margin-top: 20px;
+}
+
+.reviews > h2 {
+    font-size: 16px;
+    text-align: left;
+    border-bottom: solid #DDDDDD 1px ;
+}
+
+.reviews > ul {
+    padding-left: 0;
+    border-top: 1px solid #DDDDDD;
+}
+
+.reviews > ul > li {
+    padding-left: 0;
+    list-style: none;
+    text-align: left;
+}

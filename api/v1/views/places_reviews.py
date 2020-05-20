@@ -19,8 +19,57 @@ def get_reviews(place_id):
     """
     Returns a list of reviews by a given place
     @place_id: id of the place that holds the reviews
+    ---
+    get:
+      parameters:
+        - in: path
+          name: place_id
+          description: place id to get the reviews
+          schema:
+            type: string
+          required: true
+    responses:
+      200:
+        description: return a list of reviews for the given place
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              __class__:
+                type: string
+                example: Review
+              created_at:
+                type: string
+                example: 2017-03-25T02:17:07.000000
+              id:
+                type: string
+                example: 87sfda8sfa8dsau8
+              place_id:
+                type: string
+                example: dcascsa87dascin
+              user_id:
+                type: string
+                example: "dsadsdads"
+              text:
+                type: string
+                example: nice place i love it
+              update_at:
+                type: string
+                example: 2017-03-25T02:17:07.000000
+      400:
+        description: 404 if no reviews are found
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: Not found
+        
     """
+    # print('Get Reviews')
     place = storage.get(Place, place_id)
+    # print(place)
     if place is None:
         abort(404)
     return jsonify([rev.to_dict() for rev in place.reviews])
