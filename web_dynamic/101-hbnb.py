@@ -40,7 +40,7 @@ def close_storage(uknown):
     storage.close()
 
 
-@app.route('/4-hbnb', strict_slashes=False)
+@app.route('/101-hbnb', strict_slashes=False)
 def hbnb_filters():
     """
     List all Cities in db
@@ -76,7 +76,7 @@ def hbnb_filters():
             user = storage.get_user(place[1].user_id)
             plas.append((place[1], user.first_name + ' ' + user.last_name))
         plas = sorted(plas, key=lambda x: x[0].name, reverse=False)
-        template = render_template("4-hbnb.html", **{'states': states,
+        template = render_template("101-hbnb.html", **{'states': states,
                                                      'amenities': amens,
                                                      'places': plas,
                                                      'cache_id': uuid.uuid4()})

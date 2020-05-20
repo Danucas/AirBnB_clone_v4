@@ -26,6 +26,44 @@ def get_one_user(user_id):
     """
     Return one user by its id
     @user_id: the user id
+    ---
+    get:
+      parameters:
+        - in: path
+          name: user_id
+          description: the user id to get the user object
+          schema:
+            type: string
+          required: true
+    responses:
+      200:
+        description: the user object
+        schema:
+          type: array
+          items:
+           type: object
+           properties:
+             __class__:
+               type: string
+               example: User
+             created_at:                                               
+               type: string                                           
+               example: 2017-03-25T02:17:07.000000
+             id:
+               type: string
+               example: 87sfda8sfa8dsau8
+             email:
+               type: string
+               example: noemail14@gmail.com
+             first_name:
+               type: string
+               example: John
+             last_name:
+               type: string
+               example: Smith
+             update_at:
+               type: string
+               example: 2017-03-25T02:17:07.000000
     """
     user = storage.get(User, user_id)
     if user is None:
